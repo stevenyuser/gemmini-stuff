@@ -1,5 +1,8 @@
 # gemmini-stuff
 
+## General Notes
+After editing the Gemmini configs in `GemminiCustomConfigs.scala`, you have to recompile the `gemmini-rocc-tests` programs
+
 ## simple_matmul.c instructions
 1. Copy `simple_matmul.c` in this repo into the directory: `~/chipyard/generators/gemmini/software/gemmini-rocc-tests/bareMetalC/`
 2. In `~/chipyard/generators/gemmini/software/gemmini-rocc-tests/bareMetalC/Makefile`, add `simple_matmul` to the top of `tests` in the Makefile
