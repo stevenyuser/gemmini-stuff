@@ -70,10 +70,19 @@ int main()
   end = read_cycles();
   printf("Move B cycles: %llu\n", end - start);
 
-  printf("Multiply A matrix with B matrix with a bias of 0\n");
   start = read_cycles();
   gemmini_config_ex(OUTPUT_STATIONARY, 0, 0);
+  end = read_cycles();
+  printf("Config ex cycles: %llu\n", end - start);
+
+  printf("Preload zeros into the systolic array (C matrix) \n");
+  start = read_cycles();
   gemmini_preload_zeros(C_sp_addr); // preload zeros into C
+  end = read_cycles();
+  printf("Preload zeros cycles: %llu\n", end - start);
+
+  printf("Multiply A matrix with B matrix with a bias of 0\n");
+  start = read_cycles();
   gemmini_compute_preloaded(A_sp_addr, B_sp_addr);
   end = read_cycles();
   printf("Compute matmul cycles: %llu\n", end - start);
