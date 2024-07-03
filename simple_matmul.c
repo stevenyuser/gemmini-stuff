@@ -89,12 +89,10 @@ int main()
 
   printf("Move C matrix from Gemmini's scratchpad into main memory\n");
   start = read_cycles();
-  gemmini_config_st(DIM * sizeof(elem_t));
   gemmini_mvout(C, C_sp_addr);
   end = read_cycles();
   printf("Move C cycles: %llu\n", end - start);
 
-  printf("Fence till Gemmini completes all memory operations\n");
   gemmini_fence();
 
   printf("C matrix:\n");
