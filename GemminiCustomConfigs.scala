@@ -49,6 +49,8 @@ object GemminiCustomConfigs {
     acc_capacity = CapacityInKilobytes(128),
   )
 
+  // experimental configs
+
   // sequential config (16x16)
   // val defaultConfig = GemminiConfigs.defaultConfig
 
