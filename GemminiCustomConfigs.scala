@@ -129,7 +129,7 @@ object GemminiCustomConfigs {
   )
 
   // Specify which of your custom configs you want to build here
-  val customConfig = smallDefaultConfig
+  val customConfig = miniDefaultConfig
 }
 
 
@@ -144,4 +144,3 @@ class GemminiCustomConfig[T <: Data : Arithmetic, U <: Data, V <: Data](
     }
   )
 })
-
