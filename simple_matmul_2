@@ -1,5 +1,3 @@
-// See LICENSE for license details.
-
 #include <stdint.h>
 #include <stddef.h>
 #include <assert.h>
@@ -28,7 +26,7 @@ int main()
   uint64_t start, end; // used to measure cycles
 
   printf("Initialize our input and output matrices in main memory\n");
-  elem_t A[DIM][DIM], B[DIM][DIM], D[DIM][DIM];
+  elem_t A[DIM][DIM], B[DIM][DIM];
   elem_t C[DIM][DIM];
 
   // initalize A matrix
@@ -49,21 +47,11 @@ int main()
   printf("B matrix:\n");
   printMatrix(B);
 
-  // initialize D matrix (bias)
-  D[0][0] = 10;
-  D[0][1] = 10;
-  D[1][0] = 10;
-  D[1][1] = 10;
-
-  printf("D matrix:\n");
-  printMatrix(D);
-
   printf("Calculate the scratchpad addresses of all our matrices\n");
   // printf("  Note: The scratchpad is \"row-addressed\", where each address contains one matrix row\n");
   size_t A_sp_addr = 0;       // stores A
   size_t B_sp_addr = DIM;     // stores B
-  size_t D_sp_addr = 2 * DIM; // stores D
-  size_t C_sp_addr = 3 * DIM; // stores C
+  size_t C_sp_addr = 2 * DIM; // stores C
 
   // configure the load and store dimensions
   gemmini_fence();
@@ -90,14 +78,6 @@ int main()
   end = read_cycles();
   printf("Move B cycles: %llu\n", end - start);
 
-  printf("Move D matrix from main memory into Gemmini's scratchpad\n");
-  gemmini_fence();
-  start = read_cycles();
-  gemmini_mvin(D, D_sp_addr);
-  gemmini_fence();
-  end = read_cycles();
-  printf("Move D cycles: %llu\n", end - start);
-
   gemmini_fence();
   start = read_cycles();
   gemmini_config_ex(OUTPUT_STATIONARY, 0, 0);
@@ -105,13 +85,13 @@ int main()
   end = read_cycles();
   printf("Config ex cycles: %llu\n", end - start);
 
-  printf("Preload D into the systolic array (C matrix) \n");
+  printf("Preload zeros into the systolic array (C matrix) \n");
   gemmini_fence();
   start = read_cycles();
-  gemmini_preload(D_sp_addr, C_sp_addr);
+  gemmini_preload_zeros(C_sp_addr); // preload zeros into C
   gemmini_fence();
   end = read_cycles();
-  printf("Preload D cycles: %llu\n", end - start);
+  printf("Preload zeros cycles: %llu\n", end - start);
 
   printf("Multiply A matrix with B matrix with a bias of 0\n");
   gemmini_fence();
