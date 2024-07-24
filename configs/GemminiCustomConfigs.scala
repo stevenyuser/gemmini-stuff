@@ -127,9 +127,35 @@ object GemminiCustomConfigs {
     sp_capacity = CapacityInKilobytes(32),
     acc_capacity = CapacityInKilobytes(8),
   )
+  
+  // experimental fp configs
+
+  val miniFP32Config = defaultFpConfig.copy(
+    tileRows = 1,
+    tileColumns = 1,
+    meshRows = 2,
+    meshColumns = 2,
+
+    sp_capacity = CapacityInKilobytes(32),
+    acc_capacity = CapacityInKilobytes(8),
+  )
+
+  val miniFP16Config = defaultFpConfig.copy(
+    tileRows = 1,
+    tileColumns = 1,
+    meshRows = 2,
+    meshColumns = 2,
+
+    inputType = Float(expWidth = 5, sigWidth = 11),
+    spatialArrayOutputType = Float(expWidth = 5, sigWidth = 11),
+    accType = Float(expWidth = 5, sigWidth = 11),
+
+    sp_capacity = CapacityInKilobytes(32),
+    acc_capacity = CapacityInKilobytes(8),
+  )
 
   // Specify which of your custom configs you want to build here
-  val customConfig = miniDefaultConfig
+  val customConfig = defaultConfig
 }
 
 
@@ -144,3 +170,4 @@ class GemminiCustomConfig[T <: Data : Arithmetic, U <: Data, V <: Data](
     }
   )
 })
+
