@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./scripts/build-verilator.sh
+./scripts/build-spike.sh
 
 cd software/gemmini-rocc-tests/
 
@@ -8,4 +8,4 @@ cd software/gemmini-rocc-tests/
 
 cd ../..
 
-./scripts/run-verilator.sh $1
+./scripts/run-spike.sh $1
